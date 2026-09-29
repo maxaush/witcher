@@ -1,2 +1,0 @@
-# witcher
-WItcher APP Rus
