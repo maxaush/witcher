@@ -1,0 +1,284 @@
+/* ВЕДЬМАК — единая история.
+   Общий файл приложения: единая светлая тема (тёплый белый + зелёный акцент)
+   и общая полоса-меню. Подключается ко всем страницам ПОСЛЕ их собственных стилей.
+
+   Значения палитры синхронны с build/home_template.html и build/make_ttrpg.py —
+   при правке цвета менять во всех трёх местах. */
+
+/* ============================================================
+   1. Палитра приложения
+   ============================================================ */
+:root{
+  --wa-h: 44px;
+
+  --wa-bg:#f7f9f6;        /* фон страниц */
+  --wa-bg2:#eef3ec;       /* мягкая подложка */
+  --wa-panel:#ffffff;     /* карточки и панели */
+  --wa-panel2:#f0f5f0;    /* плашки, врезки, чипы */
+  --wa-line:#e1e8e0;      /* линии и рамки */
+  --wa-line2:#ebf0ea;
+  --wa-text:#22302a;      /* основной текст */
+  --wa-muted:#5c6b62;     /* вторичный текст */
+  --wa-dim:#87958b;       /* подписи и мелочи */
+
+  --wa-accent:#2e7d4f;    /* акцент: ссылки, кнопки, активное */
+  --wa-accent2:#256a42;   /* акцент тёмный (наведение) */
+  --wa-accent-soft:#e6f2ea;
+  --wa-accent-line:#c9e2d3;
+
+  --wa-blood:#b04a3e;     /* предупреждения и пометки */
+  --wa-green:#3f8a5f;
+  --wa-blue:#3d6fa5;
+  --wa-amber:#a9741c;
+
+  --wa-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --wa-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --wa-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* — перекрытие палитр страниц: у разделов свои имена переменных — */
+  --bg:var(--wa-bg); --bg2:var(--wa-bg2); --panel:var(--wa-panel); --panel2:var(--wa-panel2);
+  --card:var(--wa-panel); --ink:var(--wa-text); --soft:var(--wa-muted);
+  --line:var(--wa-line); --line2:var(--wa-line2);
+  --text:var(--wa-text); --muted:var(--wa-muted); --dim:var(--wa-dim);
+  --gold:var(--wa-accent); --gold2:var(--wa-accent2); --acc:var(--wa-accent);
+  --brass:var(--wa-accent-line);
+  --blood:var(--wa-blood); --green:var(--wa-green); --blue:var(--wa-blue); --amber:var(--wa-amber);
+  --serif:var(--wa-serif); --sans:var(--wa-sans); --mono:var(--wa-mono);
+}
+
+/* ============================================================
+   2. Общая полоса-меню (светлая)
+   ============================================================ */
+.wa-bar{
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(255,255,255,.9);
+  -webkit-backdrop-filter: saturate(1.5) blur(10px);
+  backdrop-filter: saturate(1.5) blur(10px);
+  border-bottom: 1px solid var(--wa-line);
+  box-shadow: 0 1px 3px rgba(34,48,42,.05);
+  font-family: var(--wa-sans);
+}
+.wa-in{
+  max-width: 1280px; margin: 0 auto; height: var(--wa-h);
+  display: flex; align-items: center; gap: 16px; padding: 0 18px;
+}
+.wa-bar a{ text-decoration: none; }
+.wa-brand{
+  display: flex; align-items: baseline; gap: 8px; white-space: nowrap;
+  font: 700 14px/1 var(--wa-serif); letter-spacing: 3px; color: var(--wa-text);
+}
+.wa-brand small{ font: 400 10.5px/1 var(--wa-sans); letter-spacing: .3px; color: var(--wa-muted); }
+.wa-nav{ margin-left: auto; display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.wa-nav::-webkit-scrollbar{ display: none; }
+.wa-nav a{
+  white-space: nowrap; border-radius: 8px; padding: 7px 11px;
+  font: 600 12.5px/1 var(--wa-sans);
+  color: #46564c;
+}
+.wa-nav a:hover{ background: #eef4ef; color: var(--wa-text); }
+.wa-nav a.on{ background: var(--wa-accent); color: #fff; }
+.wa-nav a.on:hover{ background: var(--wa-accent2); }
+
+/* ============================================================
+   3. Липкие шапки страниц встают под полосу
+   ============================================================ */
+header.top{ top: var(--wa-h) !important; }
+nav.sticky{ top: var(--wa-h) !important; }
+.side{ top: calc(var(--wa-h) + 76px) !important; }
+
+/* на узких экранах боковое меню книг — выдвижное, не залезает под полосу */
+@media (max-width: 980px){
+  .side{ top: var(--wa-h) !important; }
+}
+
+/* страница интервью: боковое оглавление прилипает сразу под полосой
+   (у страницы нет своей липкой шапки, поэтому без добавки 76px) */
+@media (min-width: 981px){
+  html[data-app="интервью"] .side{ top: calc(var(--wa-h) + 12px) !important;
+    max-height: calc(100vh - var(--wa-h) - 24px) !important; }
+}
+
+/* страница хроники: боковое оглавление прилипает под её собственным липким меню
+   (высоту меню скрипт страницы кладёт в --sbn-nav) */
+@media (min-width: 981px){
+  html[data-app="sbornik"] .side{ top: calc(var(--wa-h) + var(--sbn-nav, 46px) + 10px) !important;
+    max-height: calc(100vh - var(--wa-h) - var(--sbn-nav, 46px) - 22px) !important; }
+}
+
+/* якорные переходы не прячутся под полосой */
+html{ scroll-padding-top: 58px; }
+html[data-app="sbornik"]{ scroll-padding-top: calc(var(--wa-h) + var(--sbn-nav, 46px) + 14px); }
+
+/* ============================================================
+   4. Общая основа: фон, выделение, ссылки, заголовки
+   ============================================================ */
+html:is([data-app="books"],[data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) body::before{
+  background: radial-gradient(1100px 560px at 72% -8%, rgba(46,125,79,.07), transparent 62%),
+              radial-gradient(900px 520px at 6% 108%, rgba(61,111,165,.05), transparent 62%);
+}
+::selection{ background: #cfe7d9; color: #173528; }
+a:hover{ color: var(--wa-accent2); }
+body h1, body h2, body h3, body h4, body h5, body h6{ color: var(--wa-text); }
+code{ background: var(--wa-panel2); border: 1px solid var(--wa-line2); border-radius: 5px; padding: 1px 6px; }
+
+/* шапки страниц «Книги» и «Справочник» */
+header.top{ background: linear-gradient(#ffffff,#f7faf7); box-shadow: 0 1px 6px rgba(34,48,42,.05); }
+.brand-text b{ color: var(--wa-text); }
+.brand-mark{ filter: drop-shadow(0 1px 3px rgba(34,48,42,.18)); }
+#totop{ background: var(--wa-panel); color: var(--wa-accent); border-color: var(--wa-accent-line);
+  box-shadow: 0 2px 10px rgba(34,48,42,.12); }
+#totop:hover{ color: var(--wa-accent2); border-color: var(--wa-accent); }
+
+/* ============================================================
+   5. «Книги» — боковое меню, кнопки, значки судеб
+   ============================================================ */
+html[data-app="books"] .print-btn{ background: var(--wa-panel); border-color: var(--wa-accent-line); color: var(--wa-accent); }
+html[data-app="books"] .print-btn:hover{ background: var(--wa-accent-soft); border-color: var(--wa-accent); }
+html[data-app="books"] .side-toggle{ background: var(--wa-panel); border-color: var(--wa-line); }
+html[data-app="books"] #filter{ background: #fff; }
+html[data-app="books"] .nav-book-link:hover{ background: var(--wa-accent-soft); }
+html[data-app="books"] .nav-unit:hover{ background: var(--wa-accent-soft); color: var(--wa-text); }
+html[data-app="books"] .nav-unit.active{ background: var(--wa-accent-soft); color: var(--wa-accent2); }
+html[data-app="books"] .intro h1{ color: var(--wa-text); }
+html[data-app="books"] .book-head h2{ color: var(--wa-text); }
+html[data-app="books"] .unit h4{ color: var(--wa-text); }
+html[data-app="books"] .block-title{ color: var(--wa-accent); }
+@media (max-width: 980px){
+  html[data-app="books"] .side{ background: var(--wa-panel); }
+}
+html[data-app="books"] .badge.alive{ color:#3f8a5f; border-color:#a5cdb3; background:#e9f4ee; }
+html[data-app="books"] .badge.dead{ color:#b04a3e; border-color:#dcb1a9; background:#f9eae6; }
+html[data-app="books"] .badge.missing{ color:#a9741c; border-color:#dcc59a; background:#f8f1e2; }
+html[data-app="books"] .badge.mentioned{ color:#3d6fa5; border-color:#aabfd6; background:#e9f0f8; }
+html[data-app="books"] .badge.dead_earlier,
+html[data-app="books"] .badge.left,
+html[data-app="books"] .badge.unknown{ color:#6b776e; border-color:#c9d2ca; background:#eff2ee; }
+
+/* ============================================================
+   6. «Справочник» / «Netflix» / «Настольные игры» — одна семья стилей
+   ============================================================ */
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) #q{ background: #fff; }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .lead{ color: var(--wa-text); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) h2.sec{ color: var(--wa-text); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .card{ box-shadow: 0 1px 3px rgba(34,48,42,.06); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tbtn{ background: var(--wa-panel2); border-color: var(--wa-line); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tbtn.on{ background: var(--wa-accent-soft); border-color: var(--wa-accent-line); color: var(--wa-accent2); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab:hover{ background: rgba(46,125,79,.08); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab.active{ background: var(--wa-accent-soft); border-color: var(--wa-accent-line); color: var(--wa-accent2); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab.nf{ color: var(--wa-blood); border-color: rgba(176,74,62,.4); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab.nf:hover{ background: rgba(176,74,62,.08); color: var(--wa-blood); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab.back{ color: var(--wa-blue); border-color: rgba(61,111,165,.4); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab.back:hover{ background: rgba(61,111,165,.08); color: var(--wa-blue); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab.bg{ color: var(--wa-green); border-color: rgba(63,138,95,.4); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tab.bg:hover{ background: rgba(63,138,95,.1); color: var(--wa-green); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tbl th{ background: var(--wa-panel2); color: var(--wa-text); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tbl tr:nth-child(even) td{ background: rgba(46,125,79,.05); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .tl-item::before{ background: var(--wa-accent); box-shadow: 0 0 0 3px rgba(46,125,79,.15); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) pre.tree{ color: #2b3a31; }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) p.src a{ color: var(--wa-muted); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) mark.hit{ background: var(--wa-accent-soft); color: #1d3a2a; }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) mark.hit.cur{ background: #bfe3cd; box-shadow: 0 0 0 2px rgba(46,125,79,.35); }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .badge.bk,
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .badge.canon{ color:#3f7a55; border-color:#a5cdb3; }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .badge.gm{ color:#3d6fa5; border-color:#aabfd6; }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .badge.nf{ color:#b04a3e; border-color:#d8aca4; }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .badge.noncanon{ color:#a9741c; border-color:#d9c08f; }
+html:is([data-app="textbook"],[data-app="netflix"],[data-app="boardgames"]) .badge.dispute{ color:#8f7a18; border-color:#d6c98c; }
+
+/* ============================================================
+   7. «Хронология» — холодный «печатный» стиль → общая тема
+   ============================================================ */
+html[data-app="timeline"] body{ font-family: var(--wa-sans); font-size: 14.5px; line-height: 1.55;
+  color: var(--wa-text); background: var(--wa-bg); }
+html[data-app="timeline"] h1,
+html[data-app="timeline"] h2,
+html[data-app="timeline"] h3{ font-family: var(--wa-serif); }
+html[data-app="timeline"] a{ color: var(--wa-accent); }
+html[data-app="timeline"] .head{ border-bottom: 2px solid var(--wa-line); }
+html[data-app="timeline"] .head .sub{ color: var(--wa-muted); }
+html[data-app="timeline"] .head .upd{ color: var(--wa-dim); }
+html[data-app="timeline"] .stat{ border: 1px solid var(--wa-line); border-radius: 8px; background: var(--wa-panel); }
+html[data-app="timeline"] .stat span{ color: var(--wa-muted); }
+html[data-app="timeline"] .next{ background: var(--wa-accent-soft); border-left: 3px solid var(--wa-accent); color: var(--wa-text); }
+html[data-app="timeline"] .sec-title{ border-bottom: 1.5px solid var(--wa-line); }
+html[data-app="timeline"] .tagline{ color: var(--wa-muted); }
+html[data-app="timeline"] .key-h{ color: var(--wa-text); }
+html[data-app="timeline"] .ednote{ color: var(--wa-dim); }
+html[data-app="timeline"] .era-h{ border-bottom: 2px solid var(--wa-accent-line); }
+html[data-app="timeline"] .era-h h2{ color: var(--wa-text); }
+html[data-app="timeline"] .era-h .cnt{ color: var(--wa-muted); }
+html[data-app="timeline"] .era-sub{ color: var(--wa-muted); }
+html[data-app="timeline"] .entry{ border-bottom: 1px solid var(--wa-line2); }
+html[data-app="timeline"] .num{ background: var(--wa-accent); color: #fff; }
+html[data-app="timeline"] .thumb{ border: 1px solid var(--wa-line2); border-radius: 6px; }
+html[data-app="timeline"] .meta{ color: var(--wa-muted); }
+html[data-app="timeline"] .type{ background: var(--wa-panel2); color: var(--wa-muted); border-color: var(--wa-line); }
+html[data-app="timeline"] .t-book{ background:#e9f4ee; border-color:#b7d9c4; color:#2e6a47; }
+html[data-app="timeline"] .t-comic{ background:#efedf9; border-color:#cfc8ea; color:#5142a0; }
+html[data-app="timeline"] .t-game{ background:#fbeceb; border-color:#e8b8b3; color:#a83f34; }
+html[data-app="timeline"] .t-dlc{ background:#fbf1e6; border-color:#ecd0af; color:#9a5c16; }
+html[data-app="timeline"] .t-video{ background:#eaf2fa; border-color:#bfd6ec; color:#2f6398; }
+html[data-app="timeline"] .fb{ background:#e9f4ee; border-color:#b7d9c4; color:#2e6a47; }
+html[data-app="timeline"] .lvl{ color: var(--wa-dim); }
+html[data-app="timeline"] .date{ color: var(--wa-text); }
+html[data-app="timeline"] .orig{ color: var(--wa-dim); }
+html[data-app="timeline"] .note{ color: var(--wa-muted); }
+html[data-app="timeline"] .link{ color: var(--wa-muted); }
+html[data-app="timeline"] .foot{ border-top: 1.5px solid var(--wa-line); color: var(--wa-muted); }
+
+/* ============================================================
+   8. «Хроника Сапковского» — светлые шапка и подвал вместо тёмных
+   ============================================================ */
+html[data-app="sbornik"] header.page{ background: linear-gradient(180deg,#f2f7f3,#e9f1eb);
+  color: var(--wa-text); border-bottom: 1px solid var(--wa-line); }
+html[data-app="sbornik"] header.page .sub{ color: var(--wa-muted); }
+html[data-app="sbornik"] .badges span{ background:#fff; border:1px solid var(--wa-line); color: var(--wa-muted); }
+html[data-app="sbornik"] nav.sticky{ background: rgba(247,249,246,.92); }
+html[data-app="sbornik"] nav.sticky a:hover{ background: var(--wa-accent-soft); }
+html[data-app="sbornik"] blockquote{ background: var(--wa-panel2); color: var(--wa-text); }
+html[data-app="sbornik"] article.entry{ box-shadow: 0 1px 2px rgba(34,48,42,.05); }
+html[data-app="sbornik"] .vtable th{ background: var(--wa-panel2); color: var(--wa-muted); }
+html[data-app="sbornik"] footer.page{ background: transparent; border-top: 1px solid var(--wa-line); color: var(--wa-muted); }
+html[data-app="sbornik"] footer.page a{ color: var(--wa-accent); }
+/* внутри колонки с боковым оглавлением секции не добавляют второй отступ */
+html[data-app="sbornik"] .layout section.era{
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ============================================================
+   9. Единая геометрия: одна колонка контента на всех страницах
+   ============================================================
+   Образец — «Справочник»: колонка 1180px и боковой отступ 18px.
+   Полоса-меню выровнена по той же колонке, поэтому логотип стоит
+   ровно над текстом страницы, а при перелистывании разделов текст
+   не «прыгает» влево-вправо. */
+:root{ --wa-col: 1180px; --wa-colpad: 18px; }
+
+.wa-in{ max-width: var(--wa-col); }
+
+/* колонки страниц: главная, книги, справочник/netflix/настолки, хроника, НРИ */
+.wrap, main.wrap, #top.wrap, .top-inner, nav#tabs, footer.foot{
+  max-width: var(--wa-col) !important;
+  padding-left: var(--wa-colpad) !important;
+  padding-right: var(--wa-colpad) !important;
+}
+html[data-app="sbornik"] section.era{
+  max-width: var(--wa-col) !important;
+  padding-left: var(--wa-colpad) !important;
+  padding-right: var(--wa-colpad) !important;
+}
+
+/* «Хронология» — своего контейнера нет: полосы остаются во всю ширину
+   (фон, линейки), а содержимое садится в общую колонку */
+html[data-app="timeline"] body > *:not(.wa-bar){
+  padding-left: calc(max(0px, (100% - var(--wa-col)) / 2) + var(--wa-colpad)) !important;
+  padding-right: calc(max(0px, (100% - var(--wa-col)) / 2) + var(--wa-colpad)) !important;
+}
+
+/* ---------- печать: полоса не выводится ---------- */
+@media print{
+  .wa-bar{ display: none !important; }
+  header.top, nav.sticky, .side{ top: 0 !important; }
+}

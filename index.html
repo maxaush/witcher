@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru" data-app="home">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ВЕДЬМАК — единая история</title>
+<meta name="description" content="Пять частей одного мира: пересказ книг, справочник по вселенной, хронология, хроника Анджея Сапковского и настольная ролевая игра — в одном приложении.">
+<link rel="stylesheet" href="app.css">
+<style>
+:root{ --bg:#f7f9f6; --panel:#ffffff; --panel2:#f0f5f0; --line:#e1e8e0; --line2:#ebf0ea;
+  --text:#22302a; --muted:#5c6b62; --dim:#87958b;
+  --accent:#2e7d4f; --accent2:#256a42; --accent-soft:#e6f2ea; --accent-line:#c9e2d3;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(1100px 560px at 72% -8%, rgba(46,125,79,.07), transparent 62%),
+             radial-gradient(900px 520px at 6% 108%, rgba(61,111,165,.05), transparent 62%)}
+.wrap{max-width:1120px;margin:0 auto;padding:34px 22px 70px;position:relative;z-index:1}
+.hero{padding:26px 0 14px;border-bottom:1px solid var(--line)}
+.hero h1{margin:0;font:700 42px/1.1 var(--serif);letter-spacing:4px;color:var(--text)}
+.hero .sub{color:var(--muted);font-size:16.5px;margin:12px 0 0;max-width:780px}
+.hero .note{margin:14px 0 0;color:var(--dim);font-size:13.5px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;margin:26px 0 10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 20px 16px;
+  display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 2px rgba(34,48,42,.04);
+  transition:border-color .15s, box-shadow .15s, transform .15s}
+.card:hover{border-color:var(--accent-line);box-shadow:0 10px 26px rgba(46,125,79,.13);transform:translateY(-1px)}
+.card .mark{font-size:26px;line-height:1}
+.card h2{margin:0;font:700 20px/1.2 var(--serif);color:var(--text)}
+.card p{margin:0;font-size:14.5px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 11.5px/1 var(--sans);color:var(--muted);border:1px solid var(--line2);
+  background:var(--panel2);border-radius:20px;padding:4px 9px}
+.card .foot{margin-top:auto;display:flex;align-items:center;gap:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.card .upd{color:var(--dim);font-size:12px}
+.card a.open{margin-left:auto;background:var(--accent);color:#fff;text-decoration:none;
+  border-radius:9px;padding:8px 16px;font:700 13px/1 var(--sans)}
+.card a.open:hover{background:var(--accent2)}
+.how{margin-top:34px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.how h2{margin:0 0 10px;font:700 19px/1.2 var(--serif);color:var(--text)}
+.how ul{margin:0;padding-left:22px;font-size:14.5px}
+.how li{margin:6px 0}
+.how code{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px}
+.foot-page{margin-top:30px;color:var(--dim);font-size:12.5px;border-top:1px solid var(--line);padding-top:12px}
+a{color:var(--accent)}
+a:hover{color:var(--accent2)}
+::selection{background:#cfe7d9;color:#173528}
+@media (max-width:640px){ .hero h1{font-size:34px;letter-spacing:2px} }
+</style>
+</head>
+<body>
+<div class="wa-bar"><div class="wa-in"><a class="wa-brand" href="index.html">ВЕДЬМАК <small>· единая история</small></a><nav class="wa-nav"><a href="index.html" class="on">Главная</a><a href="books.html">Книги</a><a href="textbook.html">Справочник</a><a href="timeline.html">Хронология</a><a href="sbornik.html">Хроника Сапковского</a><a href="ttrpg.html">Настольная игра</a></nav></div></div>
+<div class="wrap">
+  <div class="hero">
+    <h1>ВЕДЬМАК</h1>
+    <p class="sub">Единая история: пересказ книг, справочник по вселенной, хронология, хроника Анджея Сапковского и настольная ролевая игра — всё в одном приложении. Работает без интернета.</p>
+    <p class="note">Приложение собрано 29.09.2026. Пять разделов — в меню сверху или на карточках ниже.</p>
+  </div>
+
+  <div class="cards">
+<article class="card">
+  <div class="mark">📖</div>
+  <h2>Пересказ книг</h2>
+  <p>Подробный пересказ всех книг Анджея Сапковского — по рассказам и главам, с персонажами и их судьбой. Плюс «Бестиарий» — создания света, мрака и тьмы.</p>
+  <div class="chips"><span class="chip">10 книг</span><span class="chip">по главам</span><span class="chip">судьбы персонажей</span></div>
+  <div class="foot"><span class="upd">обновлено 28.09.2026</span><a class="open" href="books.html">Открыть</a></div>
+</article>
+<article class="card">
+  <div class="mark">🧭</div>
+  <h2>Справочник по вселенной</h2>
+  <p>Мир и магия, география, хронология книг и игр, персонажи, бестиарий, адаптации. Отдельные страницы: канон сериала Netflix и настольные игры.</p>
+  <div class="chips"><span class="chip">9 разделов</span><span class="chip">96 портретов</span><span class="chip">поиск</span></div>
+  <div class="foot"><span class="upd">обновлено 27.09.2026</span><a class="open" href="textbook.html">Открыть</a></div>
+</article>
+<article class="card">
+  <div class="mark">🕰</div>
+  <h2>Хронология</h2>
+  <p>Единая лента событий: 21 книга Сапковского и 33 записи CD Projekt RED — игры, DLC и комиксы. Есть PDF-версия для печати.</p>
+  <div class="chips"><span class="chip">54 записи</span><span class="chip">PDF · A4</span></div>
+  <div class="foot"><span class="upd">обновлено 28.09.2026</span><a class="open" href="timeline.html">Открыть</a></div>
+</article>
+<article class="card">
+  <div class="mark">📰</div>
+  <h2>Хроника Сапковского</h2>
+  <p>Интервью, встречи, награды и появления Анджея Сапковского с 1986 по 2026 год — по открытым источникам, со ссылками. Плюс полные тексты интервью на русском.</p>
+  <div class="chips"><span class="chip">1986–2026</span><span class="chip">6 эпох</span><span class="chip">полные тексты интервью</span></div>
+  <div class="foot"><span class="upd">обновлено 29.09.2026</span><a class="open" href="sbornik.html">Открыть</a></div>
+</article>
+<article class="card">
+  <div class="mark">🎲</div>
+  <h2>Настольная игра (НРИ)</h2>
+  <p>Полный каталог по настольной ролевой игре «Ведьмак»: официальные книги, русское издание, бесплатные материалы (21 PDF), фан-сообщество.</p>
+  <div class="chips"><span class="chip">каталог контента</span><span class="chip">85 источников</span></div>
+  <div class="foot"><span class="upd">обновлено 28.09.2026</span><a class="open" href="ttrpg.html">Открыть</a></div>
+</article>
+  </div>
+
+  <div class="how">
+    <h2>Как пользоваться</h2>
+    <ul>
+      <li>Открывать приложение файлом <code>index.html</code> (двойной клик). Все страницы работают офлайн.</li>
+      <li>Каждая страница печатается в PDF своими кнопками; у «Хронологии» готовая PDF лежит рядом — <code>timeline.pdf</code>.</li>
+      <li>Обновление разделов — двойной клик по <code>Обновить.command</code> в этой папке: откроется меню, где выбирается, что обновить. После обновления приложение пересобирается само.</li>
+      <li>Тексты живут в своих папках (<code>~/hermes/witcher-…</code>), а приложение собирается из них заново — готовые страницы руками не правятся.</li>
+    </ul>
+  </div>
+
+  <div class="foot-page">ВЕДЬМАК — единая история · собрано 29.09.2026 · папка приложения: ~/hermes/witcher-app</div>
+</div>
+</body>
+</html>
